@@ -62,6 +62,9 @@ update_vm() {
   local role_tags=$([[ -n "$ROLE_TAGS" ]] && echo "--tags $ROLE_TAGS" || echo "")
   local extra_vars=$([[ -f "site.local.yml" ]] && echo "--extra-vars @site.local.yml" || echo "")
 
+  # Install any roles via Ansible Galaxy
+  [[ -f requirements.yml ]] && ansible-galaxy install -r requirements.yml
+
   step "trigger the Ansible run with $role_tags and $extra_vars"
   /usr/local/bin/ansible-playbook -i "localhost," -b -c local site.yml -vv $role_tags $extra_vars
 }
