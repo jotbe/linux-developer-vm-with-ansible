@@ -10,6 +10,7 @@
   file:
     path: ~/Desktop
     state: directory
+    mode: 0770
   become: yes
   become_user: "{{ ansible_env.SUDO_USER }}"
 
@@ -17,5 +18,6 @@
   copy:
     src: README.md
     dest: ~/Desktop/README.md
+    mode: 0660
   become: yes
   become_user: "{{ ansible_env.SUDO_USER }}"
