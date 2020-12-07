@@ -31,7 +31,7 @@ Vagrant.configure("2") do |config|
   end
 
   # make sure the current directory is mounted under /vagrant
-  config.vm.synced_folder ".", "/vagrant", mount_options: ["rw"]
+  config.vm.synced_folder ".", "/vagrant", owner: "vagrant", mount_options: ["dmode=775,fmode=664"]
 
   # create new login user
   config.vm.provision "shell", privileged: true, path: 'scripts/setup-vm-user.sh',
@@ -39,7 +39,7 @@ Vagrant.configure("2") do |config|
 
   # run the actual update-vm provisioning script under the new login user
   config.vm.provision "shell", privileged: true, keep_color: true, run: "always", inline: <<-EOF
-    sudo -i -u user ROLE_TAGS=#{ENV['ROLE_TAGS']} /vagrant/scripts/update-vm.sh #{ENV['UPDATE_VM_FLAGS']}
+    sudo -i -u user ROLE_TAGS=#{ENV['ROLE_TAGS']} bash /vagrant/scripts/update-vm.sh #{ENV['UPDATE_VM_FLAGS']}
     EOF
 
-end
+end 
